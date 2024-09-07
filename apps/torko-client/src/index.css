@@ -73,3 +73,10 @@ h1 {
 a {
     text-decoration: none;
 }
+
+.forgot-messages {
+    font-family: 'Rubik Bubbles', Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #79ffb7;
+}

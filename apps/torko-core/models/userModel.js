@@ -144,7 +144,7 @@ userSchema.statics.login = async function (email, password) {
 
 
 userSchema.statics.resetPassword = async function (email, newPassword) {
-    if (!email || !password) {
+    if (!email || !newPassword) {
         throw Error('All fields are required')
     }
 

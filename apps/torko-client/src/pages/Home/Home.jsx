@@ -58,6 +58,17 @@ export default function Home() {
                         <button onClick={handleSignIn}>
                             {isLoading ? "Loading..." : "Sign In"}
                         </button>
+                        <a
+                            href="forgot-password"
+                            style={{
+                                color: "rgb(2, 124, 96)",
+                                textDecoration: "underline",
+                                marginTop: "10px",
+                                fontSize: "0.8rem",
+                            }}
+                        >
+                            Forgot password?
+                        </a>
                     </div>
                 </div>
             </div>

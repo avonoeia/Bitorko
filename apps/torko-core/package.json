@@ -1,0 +1,27 @@
+{
+  "name": "prangon-app",
+  "version": "1.0.0",
+  "description": "Prangon 24.04 Austere Alpaca",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "nodemon --env-file=.env server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13",
+    "nodemon": "^3.1.0",
+    "redis": "^4.6.13",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

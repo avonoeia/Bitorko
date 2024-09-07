@@ -40,7 +40,7 @@ const userSchema = new Schema({
     },
     about: {
         type: String,
-        default: 'Hey there! I am using Prangon.'
+        default: 'Hey there! I am using Bitorko.'
     },
     invited_by: {
         type: String,

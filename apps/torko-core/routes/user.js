@@ -8,7 +8,9 @@ const {
     userEmailVerification2,
     userSignup,
     userLogin,
-    checkUniqueUsername
+    checkUniqueUsername,
+    resetPasswordRequest1,
+    resetPasswordRequest2
 } = require('../controllers/userController')
 
 
@@ -17,6 +19,10 @@ router.post('/verification2', userEmailVerification2)
 router.post('/signup', userSignup)
 router.post('/login', userLogin)
 router.post('/check-unique-username', checkUniqueUsername)
+
+// Reset password routes
+router.post('/reset-password1', resetPasswordRequest1) // Initial reset password request
+router.post('/reset-password2', resetPasswordRequest2) // Reset password request after email verification
 
 router.use(requireAuth)
 router.get('/user-profile/:userRequested', getUserProfile)

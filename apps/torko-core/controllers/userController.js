@@ -191,7 +191,7 @@ async function userLogin(req, res) {
 
 // Handling user reset password request
 async function resetPasswordRequest1(req, res) {
-    const { email, oldPassword, newPassword, resetReqType } = req.body;
+    const { email, oldPassword, resetReqType } = req.body;
 
     // if resetType == changePassword, then check oldPassword
     if (resetReqType === "changePassword") {
@@ -208,18 +208,32 @@ async function resetPasswordRequest1(req, res) {
 }
 
 // Resetting password
-async function resetPassword(req, res) {
+async function resetPasswordRequest2(req, res) {
+    const isVerified = await verifyBeforeSignup(req, res);
     const { email, newPassword } = req.body;
+
+    if (isVerified !== true) {
+        return res.status(400).json({ error: "Please verify your email first." });
+    }
+
+    if (isVerified !== true) {
+        return res.status(400).json({ error: "Please verify your email first." });
+    }
 
     try {
         const user = await User.resetPassword(email, newPassword);
-        if (!user) return res.status(400).json({ error: "Unknown error" });
-        
-        return res.status(200).json({ message: "Password updated successfully" });
+
+        const token = createToken(user._id);
+        return res.status(200).json({ "message": "Password change successful!", token });
     } catch (err) {
+        console.log(err);
         return res.status(400).json({ error: err.message });
     }
 }
+
+
+
+
 
 async function getUserProfile(req, res) {
     const { username } = req.user
@@ -266,4 +280,6 @@ module.exports = {
     userSignup,
     userLogin,
     checkUniqueUsername,
+    resetPasswordRequest1,
+    resetPasswordRequest2
 };

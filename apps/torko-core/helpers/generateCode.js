@@ -1,11 +1,7 @@
 function generateCode() {
     pass = ''
-    for (let i = 0; i < 10; i++) {
-        if (Math.random() > 0.5) {
-            pass += String.fromCharCode(Math.floor(Math.random() * 26) + 97)
-        } else {
-            pass += String.fromCharCode(Math.floor(Math.random() * 10) + 48)
-        }
+    for (let i = 0; i < 5; i++) {
+        pass += Math.floor(Math.random() * 10).toString()
     }
     return pass
 }

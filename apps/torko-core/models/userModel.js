@@ -142,6 +142,37 @@ userSchema.statics.login = async function (email, password) {
     return user
 }
 
+
+userSchema.statics.resetPassword = async function (email, newPassword) {
+    if (!email || !password) {
+        throw Error('All fields are required')
+    }
+
+    if (!validator.isEmail(email)) {
+        throw Error('Invalid email')
+    }
+
+    try {
+        const user = await this.findOne({ email })
+
+        if (!user) {
+            throw Error('Account with email does not exist')
+        }
+
+        // Hash and update the password
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(newPassword, salt)
+        user.password = hash
+        updatedUser = await user.save()
+
+        return user
+    } catch (error) {
+        throw Error(`${error.name}: ${error.message}`)
+    }
+}
+
+
+
 userSchema.statics.getFollowedPosts = async function(currentUser) {
     const pipeline = [
         {

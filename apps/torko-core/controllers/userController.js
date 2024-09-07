@@ -189,6 +189,38 @@ async function userLogin(req, res) {
     }
 }
 
+// Handling user reset password request
+async function resetPasswordRequest1(req, res) {
+    const { email, oldPassword, newPassword, resetReqType } = req.body;
+
+    // if resetType == changePassword, then check oldPassword
+    if (resetReqType === "changePassword") {
+        try {
+            const user = await User.login(email, oldPassword);
+            if (!user)
+                return res.status(400).json({ error: "Incorrect old password" });
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
+    }
+
+    return userEmailVerification1(req, res);
+}
+
+// Resetting password
+async function resetPassword(req, res) {
+    const { email, newPassword } = req.body;
+
+    try {
+        const user = await User.resetPassword(email, newPassword);
+        if (!user) return res.status(400).json({ error: "Unknown error" });
+        
+        return res.status(200).json({ message: "Password updated successfully" });
+    } catch (err) {
+        return res.status(400).json({ error: err.message });
+    }
+}
+
 async function getUserProfile(req, res) {
     const { username } = req.user
     const { userRequested } = req.params

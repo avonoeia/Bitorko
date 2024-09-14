@@ -210,7 +210,8 @@ async function resetPasswordRequest1(req, res) {
 // Resetting password
 async function resetPasswordRequest2(req, res) {
     const isVerified = await verifyBeforeSignup(req, res);
-    const { email, newPassword } = req.body;
+    console.log(req.body)
+    const { email, password } = req.body;
 
     if (isVerified !== true) {
         return res.status(400).json({ error: "Please verify your email first." });
@@ -221,7 +222,7 @@ async function resetPasswordRequest2(req, res) {
     }
 
     try {
-        const user = await User.resetPassword(email, newPassword);
+        const user = await User.resetPassword(email, password);
 
         const token = createToken(user._id);
         return res.status(200).json({ "message": "Password change successful!", token });

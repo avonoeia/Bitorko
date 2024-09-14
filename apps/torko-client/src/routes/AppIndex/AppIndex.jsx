@@ -56,6 +56,12 @@ export default function AppIndex() {
                         <CreateIcon fontSize="medium" />
                     </Fab>
 
+                    <div className="post-type-navigator">
+                        <button>AmarDabi</button>
+                        <button>AmaderDabi</button>
+                        <button>ShobarDabi</button>
+                    </div>
+
                     {data.posts.length > 0 ? (<Container sx={{ my: 2, px: 0 }} maxWidth="sm">
                         <Stack direction="column" spacing={2}>
                             {

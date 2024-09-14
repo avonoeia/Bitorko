@@ -30,6 +30,11 @@ import CheckUsername from "./routes/Signup/CheckUsername";
 import BackupEmailAndPassword from "./routes/Signup/BackupEmailAndPassword"
 import Welcome from "./routes/Signup/Welcome"
 
+import ForgotRoot from "./routes/ForgotPassword/ForgotRoot";
+import ForgotEnterEmail from "./routes/ForgotPassword/ForgotEnterEmail";
+import ForgotVerifyCode from "./routes/ForgotPassword/ForgotVerifyCode";
+import ForgotEnterNewPassword from "./routes/ForgotPassword/ForgotEnterNewPassword";
+
 import ErrorPage from "./errorPage";
 import Home from "./pages/Home/Home";
 import Search from "./routes/Search/Search";
@@ -90,6 +95,29 @@ const router = createBrowserRouter([
                     return null
                 },
                 element: <Welcome />,
+            },
+        ],
+    },
+    {
+        path: "/forgot-password",
+        element: <ForgotRoot />,
+        errorElement: <ErrorPage />,
+        loader: async () => {
+            const user = localStorage.getItem("user");
+            if (user) {
+                return redirect("/app");
+            }
+            return true;
+        },
+        children: [
+            { index: true, element: <ForgotEnterEmail /> },
+            {
+                path: "1",
+                element: <ForgotVerifyCode />,
+            },
+            {
+                path: "2",
+                element: <ForgotEnterNewPassword />,
             },
         ],
     },

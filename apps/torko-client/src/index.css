@@ -80,3 +80,21 @@ a {
     font-size: 1.5rem;
     color: #79ffb7;
 }
+
+.post-type-navigator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+.post-type-navigator > button {
+    background-color: #1e1e1e;
+    margin: 0 0.03rem;
+    border: none;
+}
+.post-type-navigator > button:nth-child(1) {
+    border-radius: 20px 0 0 20px;
+}
+.post-type-navigator > button:nth-child(3) {
+    border-radius: 0 20px 20px 0;
+}

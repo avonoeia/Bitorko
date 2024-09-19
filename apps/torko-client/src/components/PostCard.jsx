@@ -8,8 +8,8 @@ import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
 import PersonIcon from "@mui/icons-material/Person";
 import CardActions from "@mui/material/CardActions";
@@ -25,7 +25,7 @@ const handleLikeRequest = async ({ post_id, token }) => {
             method: "POST",
             headers: {
                 // "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -62,7 +62,6 @@ export default function PostCard({ post }) {
         <>
             {post && (
                 <>
-                    
                     <Card
                         raised={true}
                         sx={{
@@ -73,7 +72,9 @@ export default function PostCard({ post }) {
                         className="post-card"
                     >
                         {/* <CardActionArea> */}
-                        <CardActions onClick={() => navigateTo(`/app/post/${post._id}`)}>
+                        <CardActions
+                            onClick={() => navigateTo(`/app/post/${post._id}`)}
+                        >
                             {post.post_image_content && (
                                 <CardMedia
                                     component="img"
@@ -156,7 +157,9 @@ export default function PostCard({ post }) {
                             <Typography
                                 sx={{ textAlign: "left" }}
                                 variant="body2"
-                                onClick={(e) => navigateTo(`/app/post/${post._id}`)}
+                                onClick={(e) =>
+                                    navigateTo(`/app/post/${post._id}`)
+                                }
                             >
                                 {post.post_text_content}
                             </Typography>
@@ -172,22 +175,21 @@ export default function PostCard({ post }) {
                                 direction="row"
                                 spacing={2}
                             >
-                                {/* <div className="post-card-button-container"> */}
-                                    <IconButton onClick={handleLike}>
-                                        {liked ? (
-                                            <ThumbUpIcon color="secondary" />
-                                        ) : (
-                                            <ThumbUpOffAltIcon color="secondary" />
-                                        )}
-                                    </IconButton>
-                                    <IconButton onClick={handleLike}>
-                                        {liked ? (
-                                            <ThumbDownIcon color="secondary" />
-                                        ) : (
-                                            <ThumbDownOffAltIcon color="secondary" />
-                                        )}
-                                    </IconButton>
-                                {/* </div> */}
+                                <IconButton onClick={handleLike}>
+                                    {liked ? (
+                                        <ThumbUpIcon color="secondary" />
+                                    ) : (
+                                        <ThumbUpOffAltIcon color="secondary" />
+                                    )}
+                                </IconButton>
+                                <IconButton onClick={handleLike}>
+                                    {liked ? (
+                                        <ThumbDownIcon color="secondary" />
+                                    ) : (
+                                        <ThumbDownOffAltIcon color="secondary" />
+                                    )}
+                                </IconButton>
+
                                 <IconButton
                                     disabled={false}
                                     onClick={(e) => {

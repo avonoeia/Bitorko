@@ -78,16 +78,36 @@ async function getPost(req, res) {
     }
 }
 
-async function addRemoveLike(req, res) {
+async function addRemoveUpvote(req, res) {
     const { post_id } = req.params
 
     try {
         const post = await Post.findOne({ _id: post_id })
 
-        if (post.likes.find(u => u === req.user.username)) {
-            post.likes = post.likes.filter(u => u !== req.user.username)
+        if (post.upvotes.find(u => u === req.user.username)) {
+            post.upvotes = post.upvotes.filter(u => u !== req.user.username)
         } else {
-            post.likes.push(req.user.username)
+            post.upvotes.push(req.user.username)
+        }
+
+        await post.save()
+
+        return res.status(200).json(post)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+async function addRemoveDownvote(req, res) {
+    const { post_id } = req.params
+
+    try {
+        const post = await Post.findOne({ _id: post_id })
+
+        if (post.downvotes.find(u => u === req.user.username)) {
+            post.downvotes = post.downvotes.filter(u => u !== req.user.username)
+        } else {
+            post.downvotes.push(req.user.username)
         }
 
         await post.save()
@@ -125,7 +145,8 @@ async function addComment(req, res) {
 
 module.exports = {
     addComment,
-    addRemoveLike,
+    addRemoveUpvote,
+    addRemoveDownvote,
     getPost,
     getPosts,
     createPost,

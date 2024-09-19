@@ -34,6 +34,26 @@ const postSchema = new Schema(
             required: true,
             default: [],
         },
+        upovotes: {
+            type: Array,
+            default: []
+        },
+        downvotes: {
+            type: Array,
+            default: []
+        },
+        dabi_stage: {
+            type: String,
+            enum: ['AmarDabi', 'AmaderDabi', 'ShobarDabi']
+        },
+        dabi_status: {
+            type: String,
+            enum: ['Active', 'Rejected by star users', 'Rejected by community', 'Accepted']
+        },
+        directed_at: {
+            type: String,
+            default: 'Community'
+        }
     },
     {
         timestamps: true,

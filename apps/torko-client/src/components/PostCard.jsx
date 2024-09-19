@@ -60,6 +60,7 @@ export default function PostCard({ post }) {
         <>
             {post && (
                 <>
+                    
                     <Card
                         raised={true}
                         sx={{
@@ -67,9 +68,10 @@ export default function PostCard({ post }) {
                             width: "100%",
                             borderRadius: "5px",
                         }}
+                        className="post-card"
                     >
                         {/* <CardActionArea> */}
-                        <CardActions>
+                        <CardActions onClick={() => navigateTo(`/app/post/${post._id}`)}>
                             {post.post_image_content && (
                                 <CardMedia
                                     component="img"
@@ -152,6 +154,7 @@ export default function PostCard({ post }) {
                             <Typography
                                 sx={{ textAlign: "left" }}
                                 variant="body2"
+                                onClick={(e) => navigateTo(`/app/post/${post._id}`)}
                             >
                                 {post.post_text_content}
                             </Typography>

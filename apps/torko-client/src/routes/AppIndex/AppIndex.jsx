@@ -42,7 +42,7 @@ export default function AppIndex() {
     return (
         <>
             {isLoading ? (
-                <span>Hold your horses...</span>
+                <div style={{"margin": "20px"}}>Hold your horses...</div>
             ) : (
                 <>
                     <Fab
@@ -74,7 +74,7 @@ export default function AppIndex() {
                                 ))
                             }
                         </Stack>
-                    </Container>) : "As empty as they come :("}
+                    </Container>) : <div style={{"margin": "20px"}}>As empty as they come... :(</div>}
                 </>
             )}
         </>

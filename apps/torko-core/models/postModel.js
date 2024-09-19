@@ -34,7 +34,7 @@ const postSchema = new Schema(
             required: true,
             default: [],
         },
-        upovotes: {
+        upvotes: {
             type: Array,
             default: []
         },
@@ -44,11 +44,13 @@ const postSchema = new Schema(
         },
         dabi_stage: {
             type: String,
-            enum: ['AmarDabi', 'AmaderDabi', 'ShobarDabi']
+            enum: ['AmarDabi', 'AmaderDabi', 'ShobarDabi'],
+            default: 'AmarDabi'
         },
         dabi_status: {
             type: String,
-            enum: ['Active', 'Rejected by star users', 'Rejected by community', 'Accepted']
+            enum: ['Active', 'Rejected by star users', 'Rejected by community', 'Accepted'],
+            default: 'Active'
         },
         directed_at: {
             type: String,

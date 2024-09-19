@@ -8,6 +8,8 @@ import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
 import PersonIcon from "@mui/icons-material/Person";
 import CardActions from "@mui/material/CardActions";
@@ -16,14 +18,14 @@ import { useNavigate, useParams, redirect } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useMutation } from "@tanstack/react-query";
 
-const handleLikeRequest = async ({ post_id, token }) => {
+const handleUpvoteRequest = async ({ post_id, token }) => {
     const response = await fetch(
-        `${import.meta.env.VITE_API_POST_ADD_REMOVE_LIKE}${post_id}`,
+        `${import.meta.env.VITE_API_POST_ADD_REMOVE_UPVOTE}${post_id}`,
         {
             method: "POST",
             headers: {
                 // "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -34,33 +36,76 @@ const handleLikeRequest = async ({ post_id, token }) => {
     throw new Error(responseData.error);
 };
 
+const handleDownvoteRequest = async ({ post_id, token }) => {
+    const response = await fetch(
+        `${import.meta.env.VITE_API_POST_ADD_REMOVE_DOWNVOTE}${post_id}`,
+        {
+            method: "POST",
+            headers: {
+                // "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+    const responseData = await response.json();
+    if (response.ok) {
+        return responseData;
+    }
+
+    throw new Error(responseData.error);
+};
+
 export default function PostCard({ post }) {
     const { user } = useAuthContext();
     // const { post_id } = useParams();
-    const [liked, setLiked] = React.useState(
-        post.likes.find((u) => u === user.username)
+    const [upvote, setUpvote] = React.useState(
+        post.upvotes.find((u) => u === user.username)
     );
+    const [downvote, setDownvote] = React.useState(
+        post.downvotes.find((u) => u === user.username)
+    );
+    
     const navigateTo = useNavigate();
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: handleLikeRequest,
+        mutationFn: handleUpvoteRequest,
         onMutate: () => {
-            setLiked((prev) => !prev);
+            if (upvote) {
+                setUpvote(false);
+            } else {
+                setUpvote(true);
+                setDownvote(false);
+            }
         },
         onError: (error) => {
             console.error(error);
         },
     });
 
-    function handleLike() {
+    function handleUpvote() {
         mutate({ post_id: post._id, token: user.token });
+    }
+
+    async function handleDownvote() {
+        const responseData = await handleDownvoteRequest({
+            post_id: post._id,
+            token: user.token,
+        });
+
+        if (responseData) {
+            if (downvote) {
+                setDownvote(false);
+            } else {
+                setDownvote(true);
+                setUpvote(false);
+            }
+        }
     }
 
     return (
         <>
             {post && (
                 <>
-                    
                     <Card
                         raised={true}
                         sx={{
@@ -71,7 +116,9 @@ export default function PostCard({ post }) {
                         className="post-card"
                     >
                         {/* <CardActionArea> */}
-                        <CardActions onClick={() => navigateTo(`/app/post/${post._id}`)}>
+                        <CardActions
+                            onClick={() => navigateTo(`/app/post/${post._id}`)}
+                        >
                             {post.post_image_content && (
                                 <CardMedia
                                     component="img"
@@ -154,7 +201,9 @@ export default function PostCard({ post }) {
                             <Typography
                                 sx={{ textAlign: "left" }}
                                 variant="body2"
-                                onClick={(e) => navigateTo(`/app/post/${post._id}`)}
+                                onClick={(e) =>
+                                    navigateTo(`/app/post/${post._id}`)
+                                }
                             >
                                 {post.post_text_content}
                             </Typography>
@@ -170,13 +219,21 @@ export default function PostCard({ post }) {
                                 direction="row"
                                 spacing={2}
                             >
-                                <IconButton onClick={handleLike}>
-                                    {liked ? (
+                                <IconButton onClick={handleUpvote}>
+                                    {upvote ? (
                                         <ThumbUpIcon color="secondary" />
                                     ) : (
                                         <ThumbUpOffAltIcon color="secondary" />
                                     )}
                                 </IconButton>
+                                <IconButton onClick={handleDownvote}>
+                                    {downvote ? (
+                                        <ThumbDownIcon color="secondary" />
+                                    ) : (
+                                        <ThumbDownOffAltIcon color="secondary" />
+                                    )}
+                                </IconButton>
+
                                 <IconButton
                                     disabled={false}
                                     onClick={(e) => {

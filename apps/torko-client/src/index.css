@@ -78,6 +78,13 @@ a {
     border: 1px solid #79ffb7;
     cursor: pointer;
 }
+.post-card-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    width: 20%;
+}
 
 .forgot-messages {
     font-family: 'Rubik Bubbles', Helvetica, sans-serif;

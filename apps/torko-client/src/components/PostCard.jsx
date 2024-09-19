@@ -8,6 +8,8 @@ import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CommentIcon from "@mui/icons-material/Comment";
 import PersonIcon from "@mui/icons-material/Person";
 import CardActions from "@mui/material/CardActions";
@@ -170,13 +172,22 @@ export default function PostCard({ post }) {
                                 direction="row"
                                 spacing={2}
                             >
-                                <IconButton onClick={handleLike}>
-                                    {liked ? (
-                                        <ThumbUpIcon color="secondary" />
-                                    ) : (
-                                        <ThumbUpOffAltIcon color="secondary" />
-                                    )}
-                                </IconButton>
+                                {/* <div className="post-card-button-container"> */}
+                                    <IconButton onClick={handleLike}>
+                                        {liked ? (
+                                            <ThumbUpIcon color="secondary" />
+                                        ) : (
+                                            <ThumbUpOffAltIcon color="secondary" />
+                                        )}
+                                    </IconButton>
+                                    <IconButton onClick={handleLike}>
+                                        {liked ? (
+                                            <ThumbDownIcon color="secondary" />
+                                        ) : (
+                                            <ThumbDownOffAltIcon color="secondary" />
+                                        )}
+                                    </IconButton>
+                                {/* </div> */}
                                 <IconButton
                                     disabled={false}
                                     onClick={(e) => {

@@ -18,9 +18,9 @@ import { useNavigate, useParams, redirect } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useMutation } from "@tanstack/react-query";
 
-const handleLikeRequest = async ({ post_id, token }) => {
+const handleUpvoteRequest = async ({ post_id, token }) => {
     const response = await fetch(
-        `${import.meta.env.VITE_API_POST_ADD_REMOVE_LIKE}${post_id}`,
+        `${import.meta.env.VITE_API_POST_ADD_REMOVE_UPVOTE}${post_id}`,
         {
             method: "POST",
             headers: {
@@ -36,26 +36,61 @@ const handleLikeRequest = async ({ post_id, token }) => {
     throw new Error(responseData.error);
 };
 
+const handleDownvoteRequest = async ({ post_id, token }) => {
+    const response = await fetch(
+        `${import.meta.env.VITE_API_POST_ADD_REMOVE_DOWNVOTE}${post_id}`,
+        {
+            method: "POST",
+            headers: {
+                // "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+    const responseData = await response.json();
+    if (response.ok) {
+        return responseData;
+    }
+
+    throw new Error(responseData.error);
+};
+
 export default function PostCard({ post }) {
     const { user } = useAuthContext();
     // const { post_id } = useParams();
-    const [liked, setLiked] = React.useState(
-        post.likes.find((u) => u === user.username)
+    const [upvote, setUpvote] = React.useState(
+        post.upvotes.find((u) => u === user.username)
+    );
+    const [downvote, setDownvote] = React.useState(
+        post.downvotes.find((u) => u === user.username)
     );
     const navigateTo = useNavigate();
 
     const { mutate, isPending, error } = useMutation({
-        mutationFn: handleLikeRequest,
+        mutationFn: handleUpvoteRequest,
         onMutate: () => {
-            setLiked((prev) => !prev);
+            setUpvote((prev) => !prev);
+            if (upvote) setDownvote(false)
         },
         onError: (error) => {
             console.error(error);
         },
     });
 
-    function handleLike() {
+    function handleUpvote() {
         mutate({ post_id: post._id, token: user.token });
+    }
+
+    async function handleDownvote() {
+        const responseData = await handleDownvoteRequest({
+            post_id: post._id,
+            token: user.token,
+        });
+
+        if (responseData) {
+            setDownvote((prev) => !prev);
+            if (downvote) setUpvote(false)
+        }
     }
 
     return (
@@ -175,15 +210,15 @@ export default function PostCard({ post }) {
                                 direction="row"
                                 spacing={2}
                             >
-                                <IconButton onClick={handleLike}>
-                                    {liked ? (
+                                <IconButton onClick={handleUpvote}>
+                                    {upvote ? (
                                         <ThumbUpIcon color="secondary" />
                                     ) : (
                                         <ThumbUpOffAltIcon color="secondary" />
                                     )}
                                 </IconButton>
-                                <IconButton onClick={handleLike}>
-                                    {liked ? (
+                                <IconButton onClick={handleDownvote}>
+                                    {downvote ? (
                                         <ThumbDownIcon color="secondary" />
                                     ) : (
                                         <ThumbDownOffAltIcon color="secondary" />

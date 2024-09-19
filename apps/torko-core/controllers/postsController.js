@@ -87,6 +87,7 @@ async function addRemoveUpvote(req, res) {
         if (post.upvotes.find(u => u === req.user.username)) {
             post.upvotes = post.upvotes.filter(u => u !== req.user.username)
         } else {
+            post.downvotes = post.downvotes.filter(u => u !== req.user.username)
             post.upvotes.push(req.user.username)
         }
 
@@ -107,6 +108,7 @@ async function addRemoveDownvote(req, res) {
         if (post.downvotes.find(u => u === req.user.username)) {
             post.downvotes = post.downvotes.filter(u => u !== req.user.username)
         } else {
+            post.upvotes = post.upvotes.filter(u => u !== req.user.username)
             post.downvotes.push(req.user.username)
         }
 

@@ -74,7 +74,7 @@ export default function AppIndex() {
                                 ))
                             }
                         </Stack>
-                    </Container>) : "As empty as they come :("}
+                    </Container>) : <div style={{"margin": "20px"}}>As empty as they come... :(</div>}
                 </>
             )}
         </>

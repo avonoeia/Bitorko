@@ -5,12 +5,14 @@ import Stack from "@mui/material/Stack";
 import PostCard from "../../components/PostCard";
 
 import { useNavigate } from "react-router-dom"
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export default function Search() {
     const [search, setSearch] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const [searchResults, setSearchResults] = React.useState([]);
     const navigateTo = useNavigate()
+    const { user } = useAuthContext()
 
     async function handleSearchChange(event) {
         setSearch(event.target.value);
@@ -19,7 +21,14 @@ export default function Search() {
             setIsLoading(true);
             // fetch data
             const res = await fetch(
-                `${import.meta.env.VITE_API_PRANGON_SEARCH}?query=${search}`
+                `${import.meta.env.VITE_API_PRANGON_SEARCH}?query=${search}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.token}`
+                    },
+                }
             );
 
             if (res.ok) {

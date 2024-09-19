@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
 const express = require("express");
+const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
 
@@ -11,6 +12,7 @@ const client = new MongoClient(uri);
 
 app.use(express.json());
 app.use(cors());
+app.use(requireAuth)
 
 app.get("/search", async (req, res) => {
     const userQuery = req.query.query;

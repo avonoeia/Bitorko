@@ -64,13 +64,18 @@ export default function PostCard({ post }) {
     const [downvote, setDownvote] = React.useState(
         post.downvotes.find((u) => u === user.username)
     );
+    
     const navigateTo = useNavigate();
 
     const { mutate, isPending, error } = useMutation({
         mutationFn: handleUpvoteRequest,
         onMutate: () => {
-            setUpvote((prev) => !prev);
-            if (upvote) setDownvote(false)
+            if (upvote) {
+                setUpvote(false);
+            } else {
+                setUpvote(true);
+                setDownvote(false);
+            }
         },
         onError: (error) => {
             console.error(error);
@@ -88,8 +93,12 @@ export default function PostCard({ post }) {
         });
 
         if (responseData) {
-            setDownvote((prev) => !prev);
-            if (downvote) setUpvote(false)
+            if (downvote) {
+                setDownvote(false);
+            } else {
+                setDownvote(true);
+                setUpvote(false);
+            }
         }
     }
 

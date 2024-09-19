@@ -42,7 +42,7 @@ export default function AppIndex() {
     return (
         <>
             {isLoading ? (
-                <span>Hold your horses...</span>
+                <div style={{"margin": "20px"}}>Hold your horses...</div>
             ) : (
                 <>
                     <Fab

@@ -44,7 +44,7 @@ const postSchema = new Schema(
         },
         dabi_stage: {
             type: String,
-            enum: ['AmarDabi', 'AmaderDabi', 'ShobarDabi'],
+            enum: ['AmarDabi', 'AmaderDabi', 'ShobarDabi', 'Archived'],
             default: 'AmarDabi'
         },
         dabi_status: {

@@ -5,6 +5,8 @@ let upload = require("../middlewares/postUploader.js");
 const multer = require("multer");
 upload = upload.single("post_image_content");
 
+const addToQueue = require('../queue/producer/addToQueue.js')
+
 async function createPost(req, res) {
     upload(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
@@ -40,7 +42,7 @@ async function createPost(req, res) {
                 likes,
             });
             
-    
+            await addToQueue({ documentId: post._id })
             return res.status(201).json(post);
         } catch (error) {
             res.status(400).json({

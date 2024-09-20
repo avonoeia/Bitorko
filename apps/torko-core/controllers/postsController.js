@@ -54,9 +54,11 @@ async function createPost(req, res) {
 
 async function getPosts(req, res) {
     const { username } = req.user
+    const { stage } = req.params
 
     try {
-        const posts = await User.getFollowedPosts({ username })
+        let posts = await User.getFollowedPosts({ username })
+        posts = posts.filter(post => post.dabi_stage == stage)
 
         return res.status(200).json({ posts });
     } catch(error) {

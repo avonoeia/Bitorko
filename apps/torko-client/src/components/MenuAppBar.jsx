@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 import { useLogout } from "../hooks/useLogout";
 
@@ -46,8 +47,6 @@ export default function MenuAppBar() {
     const handleLogout = () => {
         logout();
     };
-
-    console.log(user.username)
 
     return (
         <Box sx={{ width: "100%", flexGrow: 1 }}>
@@ -92,7 +91,8 @@ export default function MenuAppBar() {
                         </Link>
                     </Typography>
 
-                    <div>
+                    <div style={{"display": "flex", "alignItems": "center"}}>
+                        
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -118,6 +118,7 @@ export default function MenuAppBar() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
+                            <MenuItem>Engagement Coins: 190</MenuItem>
                             <MenuItem onClick={handleRedirectToProfile}>
                                 Profile
                             </MenuItem>

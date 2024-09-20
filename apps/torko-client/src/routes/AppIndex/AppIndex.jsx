@@ -1,17 +1,11 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import ChatIcon from "@mui/icons-material/Chat";
-import GroupIcon from "@mui/icons-material/Group";
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
-import Typography from "@mui/material/Typography";
+
 import { useNavigate, redirect } from "react-router-dom";
 
 import Stack from "@mui/material/Stack";
-import Skeleton from "@mui/material/Skeleton";
 
 import PostCard from "../../components/PostCard";
 import CreateIcon from "@mui/icons-material/Create";
@@ -21,28 +15,41 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 export default function AppIndex() {
     const { user } = useAuthContext();
     const navigateTo = useNavigate();
-    const { isLoading, isError, error, data } = useQuery({
-        queryKey: ["posts"],
-        queryFn: async () => {
-            const res = await fetch(`${import.meta.env.VITE_API_GET_POSTS}`, {
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [postStage, setPostStage] = React.useState("AmarDabi");
+    const [posts, setPosts] = React.useState("");
+
+    const fetchPosts = async () => {
+        setIsLoading(true);
+        const response = await fetch(
+            `${import.meta.env.VITE_API_GET_POSTS}/${postStage}`,
+            {
+                method: "GET",
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${user.token}`,
                 },
-            });
-            return res.json();
-        },
-        onSuccess: (data) => {
-            console.log("Success", data);
-        },
-    });
+            }
+        );
+        const data = await response.json();
+        setPosts(data.posts);
+        setIsLoading(false);
+        return data;
+    };
 
-    console.log("Post data", data)
+    React.useEffect(() => {
+        fetchPosts();
+    }, [postStage]);
 
+    const selectStage = async (event) => {
+        setPostStage(event.target.name);
+        await fetchPosts();
+    };
 
     return (
         <>
             {isLoading ? (
-                <div style={{"margin": "20px"}}>Hold your horses...</div>
+                <div style={{ margin: "20px" }}>Hold your horses...</div>
             ) : (
                 <>
                     <Fab
@@ -57,24 +64,52 @@ export default function AppIndex() {
                     </Fab>
 
                     <div className="post-type-navigator">
-                        <button>AmarDabi</button>
-                        <button>AmaderDabi</button>
-                        <button>ShobarDabi</button>
+                        <button
+                            onClick={selectStage}
+                            name="AmarDabi"
+                            className={
+                                postStage === "AmarDabi" ? "selected" : ""
+                            }
+                        >
+                            AmarDabi
+                        </button>
+                        <button
+                            onClick={selectStage}
+                            name="AmaderDabi"
+                            className={
+                                postStage === "AmaderDabi" ? "selected" : ""
+                            }
+                        >
+                            AmaderDabi
+                        </button>
+                        <button
+                            onClick={selectStage}
+                            name="ShobarDabi"
+                            className={
+                                postStage === "ShobarDabi" ? "selected" : ""
+                            }
+                        >
+                            ShobarDabi
+                        </button>
                     </div>
 
-                    {data.posts.length > 0 ? (<Container sx={{ my: 2, px: 0 }} maxWidth="sm">
-                        <Stack direction="column" spacing={2}>
-                            {
-                                data.posts.map((post) => (
+                    {posts && posts.length > 0 ? (
+                        <Container sx={{ my: 2, px: 0 }} maxWidth="sm">
+                            <Stack direction="column" spacing={2}>
+                                {posts.map((post) => (
                                     <PostCard
                                         key={post._id}
                                         post={post}
                                         navigateTo={navigateTo}
                                     />
-                                ))
-                            }
-                        </Stack>
-                    </Container>) : <div style={{"margin": "20px"}}>As empty as they come... :(</div>}
+                                ))}
+                            </Stack>
+                        </Container>
+                    ) : (
+                        <div style={{ margin: "20px" }}>
+                            As empty as they come... :(
+                        </div>
+                    )}
                 </>
             )}
         </>

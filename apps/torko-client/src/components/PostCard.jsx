@@ -13,7 +13,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
 import PersonIcon from "@mui/icons-material/Person";
 import CardActions from "@mui/material/CardActions";
-import Divider from "@mui/material/Divider";
+
 import { useNavigate, useParams, redirect } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useMutation } from "@tanstack/react-query";
@@ -24,8 +24,8 @@ const handleUpvoteRequest = async ({ post_id, token }) => {
         {
             method: "POST",
             headers: {
-                // "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
             },
         }
     );

@@ -116,7 +116,7 @@ export default function UserProfile() {
                                     <SendIcon color="secondary" />
                                 </IconButton>
                             </Stack>
-                            <Stack direction="column" spacing={2} sx={{mt: "20px"}}>
+                            <Stack direction="column" spacing={2} sx={{mt: "20px", mb: "30px"}}>
     
                                 {data.comments.map((comment) => (
                                     <CommentCard key={comment.comment_text_content} comment={comment} setData={setData} />

@@ -5,12 +5,15 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon --env-file=.env server.js"
+    "dev": "nodemon --env-file=.env server.js",
+    "worker1": "nodemon --env-file=.env ./queue/consumer/processAmarDabi.js",
+    "worker2": "nodemon --env-file=.env ./queue/consumer/processAmaderDabi.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "bull": "^4.16.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",

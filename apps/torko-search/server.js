@@ -79,6 +79,8 @@ app.get("/search", async (req, res) => {
             post_text_content: 1,
             post_image_content: 1,
             likes: 1,
+            upvotes: 1,
+            downvotes: 1,
             createdAt: 1,
         },
     });

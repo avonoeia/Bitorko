@@ -20,6 +20,7 @@ export default function Search() {
         if (event.target.value) {
             setIsLoading(true);
             // fetch data
+            console.log("Data",import.meta.env.VITE_API_PRANGON_SEARCH)
             const res = await fetch(
                 `${import.meta.env.VITE_API_PRANGON_SEARCH}?query=${search}`,
                 {

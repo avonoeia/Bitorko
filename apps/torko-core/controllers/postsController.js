@@ -57,7 +57,8 @@ async function getPosts(req, res) {
     const { stage } = req.params
 
     try {
-        let posts = await User.getFollowedPosts({ username })
+        let posts = await Post.find().sort({ createdAt: -1 })
+        console.log(posts)
         posts = posts.filter(post => post.dabi_stage == stage)
 
         return res.status(200).json({ posts });

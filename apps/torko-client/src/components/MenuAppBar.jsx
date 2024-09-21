@@ -118,7 +118,7 @@ export default function MenuAppBar() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem>Engagement Coins: 190</MenuItem>
+                            <MenuItem>Engagement Coins: {user.points}</MenuItem>
                             <MenuItem onClick={handleRedirectToProfile}>
                                 Profile
                             </MenuItem>

@@ -85,6 +85,15 @@ const userSchema = new Schema({
     followers: {
         type: Array,
         default: []
+    },
+    points: {
+        type: Number,
+        default: 0
+    },
+    user_type: {
+        type: String,
+        enum: ['community', 'star'],
+        default: 'cumminity'
     }
 }, {
     timestamps: true

@@ -11,7 +11,7 @@ async function requireAuth(req, res, next) {
     const token = authorization.split(' ')[1]
     try {
         const { id } = jwt.verify(token, process.env.SECRET)
-        req.user = await User.findOne({ _id: id }).select('_id name username email')
+        req.user = await User.findOne({ _id: id }).select('_id name username email points')
         next() 
     } catch(err) {
         console.log(err)
